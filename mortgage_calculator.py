@@ -1,3 +1,8 @@
+"""
+https://youtu.be/D0D4Pa22iG0?si=3or58vjtabLKvPgf
+to run locally:     streamlit run mortgage_calculator.py
+"""
+
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
