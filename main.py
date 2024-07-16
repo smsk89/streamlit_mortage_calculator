@@ -2,11 +2,8 @@
 to run locally: streamlit run main.py
 
 1) Поиск по новостным сайтам - Copyright 2024, MS
-
-2) Калькулятор ипотечных процентов - https://youtu.be/D0D4Pa22iG0?si=3or58vjtabLKvPgf
-
-3) Курс акций - https://youtu.be/JwSS70SZdyM?si=1WLgPMF0noiRbAHU
-
+2) Биржевые данные - Copyright 2024, MS
+3) Калькулятор ипотечных процентов - https://youtu.be/D0D4Pa22iG0?si=3or58vjtabLKvPgf
 4) webscraping of NBA player stats - https://youtu.be/JwSS70SZdyM?si=1WLgPMF0noiRbAHU
 """
 import streamlit as st
@@ -20,8 +17,8 @@ class App:
     def __init__(self):
         self.pages = {
             "Поиск новостей": NewsSearch(),
+            "Биржевые данные": StockData(),
             "Ипотечный калькулятор": MortgageCalculator(),
-            "Данные по акциям": StockData(),
             "NBA Player Stats webscraping": BasketballStats()  # Добавляем новую страницу в меню
         }
 
