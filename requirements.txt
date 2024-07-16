@@ -56,3 +56,4 @@ urllib3==2.2.2
 watchdog==4.0.1
 webencodings==0.5.1
 yfinance==0.2.40
+seaborn~=0.13.2
