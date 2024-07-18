@@ -77,12 +77,13 @@ class CryptoData:
         df_coins = df_selected_coin[:num_coin]
 
         df_coins.rename(columns={
+            'coin_symbol': 'symbol',
             'percent_change_1h': '%_ch_1h',
             'percent_change_24h': '%_ch_24h',
             'percent_change_7d': '%_ch_7d',
         }, inplace=True)
 
-        col2, _ = st.columns([50, 1])
+        col2 = st.columns(1)[0]
         col2.subheader('Price Data of Selected Cryptocurrency')
 
         df_coins['positive_%_change_1h'] = df_coins['%_ch_1h'] > 0
