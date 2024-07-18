@@ -74,7 +74,7 @@ class CryptoData:
         df_selected_coin = df[(df['coin_symbol'].isin(selected_coin))]
 
         num_coin = expander_bar.slider('Количество отображаемых в таблице криптовалют', 1, 100, 100)
-        df_coins = df_selected_coin[:num_coin]
+        df_coins = df_selected_coin[:num_coin].copy()
 
         df_coins.rename(columns={
             'coin_symbol': 'symbol',
@@ -86,9 +86,9 @@ class CryptoData:
         col2 = st.columns(1)[0]
         col2.subheader('Price Data of Selected Cryptocurrency')
 
-        df_coins['positive_%_change_1h'] = df_coins['%_ch_1h'] > 0
-        df_coins['positive_%_change_24h'] = df_coins['%_ch_24h'] > 0
-        df_coins['positive_%_change_7d'] = df_coins['%_ch_7d'] > 0
+        df_coins.loc[:, 'positive_%_change_1h'] = df_coins['%_ch_1h'] > 0
+        df_coins.loc[:, 'positive_%_change_24h'] = df_coins['%_ch_24h'] > 0
+        df_coins.loc[:, 'positive_%_change_7d'] = df_coins['%_ch_7d'] > 0
 
         df_coins.index = df_coins.index + 1
 
@@ -103,11 +103,11 @@ class CryptoData:
             '%_ch_1h': '{:.2f}',
             '%_ch_24h': '{:.2f}',
             '%_ch_7d': '{:.2f}'
-        }).applymap(highlight_positive,
-                    subset=['positive_%_change_1h', 'positive_%_change_24h', 'positive_%_change_7d']) \
+        }).map(highlight_positive, subset=['positive_%_change_1h', 'positive_%_change_24h', 'positive_%_change_7d']) \
             .set_properties(subset=['market_cap', 'volume_24h'], **{'text-align': 'right'})
 
-        col2.dataframe(styled_df_coins, height=800)
+        table_height = min(35 * (len(df_coins) + 1) + 10, 800)  # Set max height to 800
+        col2.dataframe(styled_df_coins, height=table_height)
 
         def filedownload(df):
             csv = df.to_csv(index=False)
