@@ -1,16 +1,19 @@
 """
 to run locally: streamlit run main.py
 
-1) Поиск по новостным сайтам - Copyright 2024, MS
-2) Биржевые данные - Copyright 2024, MS
-3) Калькулятор ипотечных процентов - https://youtu.be/D0D4Pa22iG0?si=3or58vjtabLKvPgf
-4) webscraping of NBA player stats - https://youtu.be/JwSS70SZdyM?si=1WLgPMF0noiRbAHU
+1) "Поиск новостей" - Copyright 2024, MS
+2) "Биржевые данные" - Copyright 2024, MS
+3) "Криптовалюты: цены и объемы" - Copyright 2024, MS
+4) "Ипотечный калькулятор" - https://youtu.be/D0D4Pa22iG0?si=3or58vjtabLKvPgf
+5) "NBA Player Stats webscraping" - https://youtu.be/JwSS70SZdyM?si=1WLgPMF0noiRbAHU
 """
+
 import streamlit as st
 from mortgage_calculator import MortgageCalculator
 from news_search import NewsSearch
 from stock_data import StockData
-from basketball import BasketballStats  # Добавляем импорт нового модуля
+from basketball import BasketballStats
+from crypto import CryptoData
 
 
 class App:
@@ -18,12 +21,13 @@ class App:
         self.pages = {
             "Поиск новостей": NewsSearch(),
             "Биржевые данные": StockData(),
+            "Криптовалюты: цены и объемы": CryptoData(),
             "Ипотечный калькулятор": MortgageCalculator(),
-            "NBA Player Stats webscraping": BasketballStats()  # Добавляем новую страницу в меню
+            "NBA Player Stats webscraping": BasketballStats()
         }
 
     def run(self):
-        st.sidebar.title("Приложения")  # Добавляем заголовок
+        st.sidebar.title("Приложения")
         page_name = st.sidebar.radio("Выберите:", list(self.pages.keys()))
         page = self.pages[page_name]
         page.render()
