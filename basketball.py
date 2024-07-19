@@ -5,19 +5,27 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 
+
+@st.cache_data
+def load_data(_year):
+    url = f"https://www.basketball-reference.com/leagues/NBA_{_year}_per_game.html"
+    html = pd.read_html(url, header=0)
+    df = html[0]
+    raw = df.drop(df[df.Age == 'Age'].index)
+    raw = raw.fillna(0)
+    playerstats = raw.drop(['Rk'], axis=1)
+
+    # Преобразование всех процентных столбцов в числовой формат
+    percentage_columns = ['FG%', '3P%', '2P%', 'eFG%', 'FT%']
+    for col in percentage_columns:
+        playerstats[col] = pd.to_numeric(playerstats[col], errors='coerce').fillna(0)
+
+    return playerstats
+
+
 class BasketballStats:
     def __init__(self):
         pass
-
-    @st.cache_data
-    def load_data(_self, year):
-        url = f"https://www.basketball-reference.com/leagues/NBA_{year}_per_game.html"
-        html = pd.read_html(url, header=0)
-        df = html[0]
-        raw = df.drop(df[df.Age == 'Age'].index)
-        raw = raw.fillna(0)
-        playerstats = raw.drop(['Rk'], axis=1)
-        return playerstats
 
     def filedownload(self, df):
         csv = df.to_csv(index=False)
@@ -36,7 +44,7 @@ class BasketballStats:
         with right_sidebar:
             selected_year = st.selectbox('Year', list(reversed(range(1950, 2024))))
 
-        playerstats = self.load_data(selected_year)
+        playerstats = load_data(selected_year)
 
         with right_sidebar:
             sorted_unique_team = sorted(playerstats.Tm.unique())

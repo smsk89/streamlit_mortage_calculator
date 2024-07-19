@@ -2,7 +2,6 @@ import yfinance as yf
 import streamlit as st
 from datetime import date
 
-
 class StockData:
     def __init__(self):
         pass
@@ -37,7 +36,7 @@ class StockData:
             for col, (symbol, name) in zip(cols, popular_assets.items()):
                 if col.button(f"{symbol}"):
                     st.session_state.selected_ticker = symbol
-                    st.experimental_rerun()
+                    st.rerun()
                 col.write(f"{name}")
 
             # Добавляем выбор начальной и конечной даты
