@@ -6,6 +6,7 @@ to run locally: streamlit run main.py
 3) "Криптовалюты: цены и объемы" - Copyright 2024, MS
 4) "Ипотечный калькулятор" - https://youtu.be/D0D4Pa22iG0?si=3or58vjtabLKvPgf
 5) "NBA Player Stats webscraping" - https://youtu.be/JwSS70SZdyM?si=1WLgPMF0noiRbAHU
+6) "Uber pickups in NYC, DataSet - 2014" - https://docs.streamlit.io/get-started/tutorials/create-an-app
 """
 
 import streamlit as st
@@ -14,6 +15,7 @@ from news_search import NewsSearch
 from stock_data import StockData
 from basketball import BasketballStats
 from crypto import CryptoData
+from uber import UberPickups
 
 
 class App:
@@ -23,7 +25,8 @@ class App:
             "Биржевые данные": StockData(),
             "Криптовалюты: цены и объемы": CryptoData(),
             "Ипотечный калькулятор": MortgageCalculator(),
-            "NBA Player Stats webscraping": BasketballStats()
+            "NBA Player Stats webscraping": BasketballStats(),
+            "Uber Pickups": UberPickups()
         }
 
     def run(self):
