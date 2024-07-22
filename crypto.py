@@ -4,6 +4,7 @@ import base64
 import requests
 from dotenv import load_dotenv
 import os
+import matplotlib.pyplot as plt
 
 load_dotenv()
 API_KEY = os.getenv('CRYPTO_API_KEY')
@@ -120,3 +121,37 @@ class CryptoData:
             return href
 
         col2.markdown(filedownload(df_selected_coin), unsafe_allow_html=True)
+
+        # Круговая диаграмма
+        stable_symbols = ['USDT', 'USDC', 'FDUSD', 'DAI', 'USDD']
+        volume_data = df[['coin_symbol', 'volume_24h']]
+
+        # Вычисляем общую сумму оборота для stable coins и non-stable coins
+        stable_volume = volume_data[volume_data['coin_symbol'].isin(stable_symbols)]['volume_24h'].sum()
+        non_stable_volume = volume_data[~volume_data['coin_symbol'].isin(stable_symbols)]['volume_24h'].sum()
+
+        # Подготавливаем данные для диаграммы
+        labels = ['non-stable coins']
+        sizes = [non_stable_volume]
+        colors = ['#FF9999']
+
+        for symbol in stable_symbols:
+            volume = volume_data[volume_data['coin_symbol'] == symbol]['volume_24h'].sum()
+            labels.append(symbol)
+            sizes.append(volume)
+            colors.append(
+                '#66CDAA' if symbol == 'USDT' else '#8FBC8F' if symbol == 'USDC' else '#20B2AA' if symbol == 'FDUSD' else '#B0E57C')
+
+        fig1, ax1 = plt.subplots()
+        wedges, texts = ax1.pie(sizes, colors=colors, startangle=90, labels=labels, textprops={'fontsize': 6})
+        ax1.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle.
+
+        # Добавляем легенду снаружи диаграммы
+        legend_labels = [f"{label}: ${size:,.0f}" for label, size in zip(labels, sizes)]
+        ax1.legend(wedges, legend_labels, title="Cryptos", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
+
+        # Обновляем заголовок диаграммы с объемами
+        header_html = f"<h3>Объемы суточного оборота всех non-stable coins (${non_stable_volume:,.0f}) vs stable coins (${stable_volume:,.0f})</h3>"
+        st.markdown(header_html, unsafe_allow_html=True)
+
+        st.pyplot(fig1)
