@@ -37,11 +37,13 @@ pydeck==0.9.1
 Pygments==2.18.0
 pyparsing==3.1.2
 python-dateutil==2.9.0.post0
+python-dotenv==1.0.1
 pytz==2024.1
 referencing==0.35.1
 requests==2.32.3
 rich==13.7.1
 rpds-py==0.19.0
+seaborn==0.13.2
 six==1.16.0
 smmap==5.0.1
 soupsieve==2.5
@@ -56,4 +58,3 @@ urllib3==2.2.2
 watchdog==4.0.1
 webencodings==0.5.1
 yfinance==0.2.40
-seaborn~=0.13.2

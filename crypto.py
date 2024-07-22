@@ -2,8 +2,12 @@ import streamlit as st
 import pandas as pd
 import base64
 import requests
+from dotenv import load_dotenv
+import os
 
-API_KEY = 'f043fb85-88e3-4d84-92c9-df0a50b091bd'    # 10K call credits /mo
+load_dotenv()
+API_KEY = os.getenv('CRYPTO_API_KEY')
+
 API_URL = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
 
 headers = {

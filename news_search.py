@@ -1,15 +1,18 @@
 import requests
 from datetime import datetime
 import streamlit as st
+from dotenv import load_dotenv
+import os
 
 
 class NewsSearch:
     def __init__(self):
-        pass
+        load_dotenv()
+        self.api_key = os.getenv("NEWS_API_KEY")
 
     def get_news(self, search, amount):
         response = requests.get(
-            f"https://newsapi.org/v2/everything?q={search}&apiKey=822895efef15442290609827f89d3e54&pageSize={amount}")
+            f"https://newsapi.org/v2/everything?q={search}&apiKey={self.api_key}&pageSize={amount}")
         data = response.json()
         mrgn = 20
 
