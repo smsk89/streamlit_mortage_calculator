@@ -18,7 +18,7 @@ headers = {
 
 parameters = {
     'start': '1',
-    'limit': '100',
+    'limit': '200',     # количество запрашиваемых криптовалют
     'convert': 'USD'
 }
 
@@ -78,7 +78,7 @@ class CryptoData:
 
         df_selected_coin = df[(df['coin_symbol'].isin(selected_coin))]
 
-        num_coin = expander_bar.slider('Количество отображаемых в таблице криптовалют', 1, 100, 100)
+        num_coin = expander_bar.slider('Количество отображаемых в таблице криптовалют', 1, 200, 200)  # количество отображаемых криптовалют
         df_coins = df_selected_coin[:num_coin].copy()
 
         df_coins.rename(columns={
@@ -123,7 +123,7 @@ class CryptoData:
         col2.markdown(filedownload(df_selected_coin), unsafe_allow_html=True)
 
         # Круговая диаграмма
-        stable_symbols = ['USDT', 'USDC', 'FDUSD', 'DAI', 'USDD']
+        stable_symbols = ['USDT', 'USDC', 'FDUSD', 'DAI', 'USDD', 'PYUSD', 'TUSD']
         volume_data = df[['coin_symbol', 'volume_24h']]
 
         # Вычисляем общую сумму оборота для stable coins и non-stable coins
@@ -140,7 +140,14 @@ class CryptoData:
             labels.append(symbol)
             sizes.append(volume)
             colors.append(
-                '#66CDAA' if symbol == 'USDT' else '#8FBC8F' if symbol == 'USDC' else '#20B2AA' if symbol == 'FDUSD' else '#B0E57C')
+                '#66CDAA' if symbol == 'USDT' else
+                '#8FBC8F' if symbol == 'USDC' else
+                '#20B2AA' if symbol == 'FDUSD' else
+                '#B0E57C' if symbol == 'DAI' else
+                '#98FB98' if symbol == 'USDD' else
+                '#90EE90' if symbol == 'PYUSD' else
+                '#8FBC8F' if symbol == 'TUSD' else
+                '#B0E57C')
 
         fig1, ax1 = plt.subplots()
         wedges, texts = ax1.pie(sizes, colors=colors, startangle=90, labels=labels, textprops={'fontsize': 6})
